@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prescription Form</title>
+
+    <!-- Google Font for Styling -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/styles/prescription.css">
+    <style>
+        .medication-group {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            display: grid;
+            grid-template-columns: 1fr; /* Single column layout for each medication field */
+            gap: 20px; /* Adds spacing between fields */
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: co-lumn;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        button#addMedication {
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Prescription Form</h2>
+        <form id="prescriptionForm" action="/submit-prescription" method="POST">
+            <!-- Patient Information -->
+            <div class="form-group">
+                <label for="patientName">Patient Name</label>
+                <input type="text" id="patientName" name="patientName" placeholder="Enter patient's full name" >
+            </div>
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" id="age" name="age" placeholder="Enter patient's age" >
+            </div>
+            <div class="form-group">
+                <label for="weight">Weight</label>
+                <input type="number" id="weight" name="weight" placeholder="Enter patient's weight (kg)" >
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender" >
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <!-- Diagnosis/Problem Section -->
+            <div class="form-group">
+                <label for="diagnosis">Diagnosis/Problem</label>
+                <textarea id="diagnosis" name="diagnosis" rows="3" placeholder="Enter the diagnosis or medical problem"></textarea>
+            </div>
+
+            <!-- Doctor Information (fetched from ID) -->
+            <div class="form-group">
+                <label for="doctorId">Doctor's Unique ID</label>
+                <input type="text" id="doctorId" name="doctorId" placeholder="Enter doctor's unique ID">
+            </div>
+            <div class="form-group">
+                <label for="doctorName">Doctor's Name (Auto-Filled)</label>
+                <input type="text" id="doctorName" name="doctorName" placeholder="Doctor's name will be auto-filled" readonly>
+            </div>
+            <div id="medications">
+                <div class="medication-group">
+                    <!-- Medication Name -->
+                    <div class="form-group">
+                        <label for="medicationName">Medication Name</label>
+                        <input type="text" name="medicationName" placeholder="Enter medication name" >
+                    </div>
+            
+                    <!-- Brand Name -->
+                    <div class="form-group">
+                        <label for="brandName">Brand Name</label>
+                        <input type="text" name="brandName" placeholder="Enter brand name" >
+                    </div>
+            
+                    <!-- Generic Name -->
+                    <div class="form-group">
+                        <label for="genericName">Generic Name</label>
+                        <input type="text" name="genericName" placeholder="Enter generic name" >
+                    </div>
+            
+                    <!-- Strength/Dosage -->
+                    <div class="form-group">
+                        <label for="medicationStrength">Strength/Dosage</label>
+                        <input type="text" name="medicationStrength" placeholder="Enter strength/dosage" >
+                    </div>
+            
+                    <!-- Route of Administration -->
+                    <div class="form-group">
+                        <label for="route">Route of Administration</label>
+                        <input type="text" name="route" placeholder="Enter route of administration" >
+                    </div>
+            
+                    <!-- Number of Days -->
+                    <div class="form-group">
+                        <label for="medicationDays">Number of Days</label>
+                        <input type="number" name="medicationDays" placeholder="Enter number of days" >
+                    </div>
+            
+                    <!-- Frequency -->
+                    <div class="form-group">
+                        <label for="frequency">Frequency (Times per day)</label>
+                        <input type="number" name="frequency" placeholder="Enter how many times per day" >
+                    </div>
+            
+                    <!-- Additional Remarks -->
+                    <div class="form-group">
+                        <label for="remarks">Additional Remarks</label>
+                        <textarea name="remarks" placeholder="Enter any additional remarks" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="button" id="addMedication">Add Another Medication</button>
+            
+            
+
+
+            <!-- Prescription Date and Refills -->
+            <div class="form-group">
+                <label for="date">Prescription Date</label>
+                <input type="date" id="date" name="date" >
+            </div>
+            <div class="form-group">
+                <label for="refill">Number of Refills</label>
+                <input type="number" id="refill" name="refill" placeholder="Enter refill count (0 if none)">
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit">Submit Prescription</button>
+        </form>
+    </div>
+
+    <!-- JavaScript to Handle Form Submission and Medication Addition -->
+    <script>
+      /*  document.getElementById('prescriptionForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Gather form data
+            const formData = {
+                patientName: document.getElementById('patientName').value,
+                age: document.getElementById('age').value,
+                weight: document.getElementById('weight').value,
+                gender: document.getElementById('gender').value,
+                diagnosis: document.getElementById('diagnosis').value,
+                doctorId: document.getElementById('doctorId').value,
+                doctorName: document.getElementById('doctorName').value,
+                medications: [],
+                date: document.getElementById('date').value,
+                refill: document.getElementById('refill').value
+            };
+
+            // Collect all medication data
+            const medicationGroups = document.querySelectorAll('.medication-group');
+            medicationGroups.forEach((group) => {
+                const medication = {
+                    name: group.querySelector('input[name="medicationName"]').value,
+                    brandName: group.querySelector('input[name="brandName"]').value,
+                    genericName: group.querySelector('input[name="genericName"]').value,
+                    strength: group.querySelector('input[name="medicationStrength"]').value,
+                    route: group.querySelector('input[name="route"]').value,
+                    days: group.querySelector('input[name="medicationDays"]').value,
+                    frequency: group.querySelector('input[name="frequency"]').value,
+                    remarks: group.querySelector('textarea[name="remarks"]').value
+                };
+                formData.medications.push(medication);
+            });
+
+            // Send form data to the server
+            fetch('/submit-prescription', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });*/
+
+        // Function to add another medication input group
+        document.getElementById('addMedication').addEventListener('click', function() {
+            const medicationsContainer = document.getElementById('medications');
+            const newMedication = document.createElement('div');
+            newMedication.classList.add('medication-group');
+            newMedication.innerHTML = `
+                <input type="text" name="medicationName" placeholder="Enter medication name" required>
+                <input type="text" name="brandName" placeholder="Enter brand name" required>
+                <input type="text" name="genericName" placeholder="Enter generic name" required>
+                <input type="text" name="medicationStrength" placeholder="Enter strength/dosage" required>
+                <input type="text" name="route" placeholder="Route of Administration (e.g., oral, injection)" required>
+                <input type="number" name="medicationDays" placeholder="Enter number of days" required>
+                <input type="number" name="frequency" placeholder="Times per day" required>
+                <textarea name="remarks" placeholder="Additional remarks" rows="2"></textarea>
+            `;
+            medicationsContainer.appendChild(newMedication);
+        });
+
+        // Fetch Doctor's details based on ID (Mocking API call)
+        document.getElementById('doctorId').addEventListener('change', function() {
+            const doctorId = document.getElementById('doctorId').value;
+
+            // Mock API call to fetch doctor's details using doctorId
+            if (doctorId === "1234") {
+                document.getElementById('doctorName').value = "Dr. John Doe";
+            } else {
+                document.getElementById('doctorName').value = "Unknown Doctor";
+            }
+        });
+    </script>
+
+</body>
+</html>

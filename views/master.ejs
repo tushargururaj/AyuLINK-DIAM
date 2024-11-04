@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor's Dashboard</title>
+  <link rel="stylesheet" href="/styles/master.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="header">
+        <h1>AyuLink - Seemlessly connecting your records through Blockchain</h1>
+      </div>
+      
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidecontainer">
+      <aside class="sidebar">
+        <div class="doctor-profile">
+          <img src="doc.jpeg" alt="Doctor" class="doctor-img">
+          <h2>TUSHAR GURURAJ</h2>
+        </div>
+        <div class="nav-buttons">
+          <button onclick="showSection('new-prescription')">New Prescription</button>
+          <button onclick="showSection('view-prescriptions')">View Prescriptions</button>
+          <button onclick="showSection('patient-list')">Patients</button>
+          <button onclick="showSection('main-view')">Dashboard</button>
+        </div>
+      </aside>
+    </div>
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Default View Container (Statistics and Chart) -->
+      <div id="default-view">
+        <div class="stats-container">
+          <div class="stat-box" id="active-patients">Active Patients: <span>0</span></div>
+          <div class="stat-box" id="total-prescriptions">Prescriptions: <span>0</span></div>
+        </div>
+        <div class="chart-container">
+            <canvas id="prescriptionChart"></canvas> <!-- Chart for Prescriptions Over Time -->
+            <canvas id="patientChart"></canvas> <!-- New Chart for Patient Count Over Time -->
+          </div>
+          
+      </div>
+
+      <!-- Dynamic Sections -->
+      <div id="new-prescription" class="section hidden">
+        <h3>New Prescription</h3>
+        <form id="prescription-form">
+          <input type="text" id="patient-id" placeholder="Patient ID" required>
+          <input type="text" id="patient-name" placeholder="Patient Name" required>
+          <input type="number" id="age" placeholder="Age" required>
+          <input type="number" id="weight" placeholder="Weight" required>
+          <input type="text" id="gender" placeholder="Gender" required>
+          <input type="text" id="disease-code" placeholder="Disease Code" required>
+          <textarea id="diagnosis" placeholder="Diagnosis" required></textarea>
+
+          <h4>Medications</h4>
+          <div id="medications-list">
+            <div class="medication">
+              <input type="text" placeholder="Medication Name" required>
+              <input type="text" placeholder="Brand Name" required>
+              <input type="text" placeholder="Generic Name">
+              <input type="text" placeholder="Dosage" required>
+              <input type="text" placeholder="Route of Administration" required>
+              <input type="number" placeholder="Days" required>
+              <input type="text" placeholder="Frequency" required>
+              <textarea placeholder="Additional Remarks"></textarea>
+            </div>
+          </div>
+          <button type="button" class="btn" onclick="addMedication()">Add Medication</button>
+          <button type="button" class="btn-save" onclick= "savePrescription()" >Save Prescription</button>
+          <button type="button" class="btn" onclick="discardLastMedication()">Discard Last Medication</button>
+        </form>
+      </div>
+
+      <div id="view-prescriptions" class="section hidden">
+        <h3>Prescriptions</h3>
+        <input type="text" id="search-bar" placeholder="Search by name or diagnosis" oninput="filterPrescriptions()">
+        <div id="prescription-list">
+          <!-- Prescription blocks will be added here dynamically -->
+        </div>
+      </div>
+
+      <div id="patient-list" class="section hidden">
+        <h3>Patient List</h3>
+        <ul id="patient-list-container">
+          <!-- Patient names will be added here dynamically -->
+        </ul>
+      </div>
+    </main>
+  </div>
+  <script src="/scripts/master.js"></script>
+</body>
+</html>

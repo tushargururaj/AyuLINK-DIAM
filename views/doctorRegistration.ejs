@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Registration</title>
+    <link rel="stylesheet" href="/styles/doctorRegi.css">
+</head>
+<body>
+    <nav>
+        <div class="company-details">
+            <h1>Medical Center</h1>
+        </div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+        </div>
+    </nav>
+    <div class="registration-container">
+        <div class="registration-box">
+            <h2>Doctor Registration</h2>
+            <form method="post" action="/DoctorReg-submit">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="username" placeholder="Enter your name" required>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <label for="specialty">Specialty</label>
+                <input type="text" id="specialty" name="specialty" placeholder="Enter your specialty">
+                <label for="nmc-uid">NMC UID</label>
+                <input type="text" id="nmc-uid" name="nmc_uid" placeholder="Enter your NMC UID" required>
+                <button type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+    <script src="registration.js"></script>
+</body>
+</html>

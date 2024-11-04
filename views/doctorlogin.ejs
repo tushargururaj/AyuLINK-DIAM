@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Login</title>
+    <link rel="stylesheet" href="/styles/doctorLogi.css">
+</head>
+<body>
+    <nav>
+        <div class="company-details">
+            <h1>AyuLink</h1>
+        </div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+        </div>
+    </nav>
+    <div class="login-container">
+        <div class="login-box">
+            <h2>Doctor Login</h2>
+            <form method="post" action="/doctorLog-submit">
+                <label for="doctor-id">Doctor ID</label>
+                <input type="text" id="doctor-id" name="doctorID" placeholder="Enter your ID" required>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <button type="submit">Login</button>
+                <a href="./doctorRegistration.ejs">Forgot Password?</a>
+            </form>
+        </div>
+    </div>
+    <script src="login.js"></script>
+</body>
+</html>
